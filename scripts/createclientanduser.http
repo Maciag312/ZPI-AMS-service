@@ -1,0 +1,58 @@
+POST http://localhost:8080/api/organization/master/manager/signin
+accept: */*
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin",
+  "role": "SUPER_ADMIN"
+}
+
+###
+
+POST http://localhost:8080/api/organization/master/manager/signin
+accept: */*
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin",
+  "role": "MANAGER"
+}
+
+###
+
+POST http://localhost:8080/api/organization/register/pizza-house
+accept: */*
+Content-Type: application/json
+
+###
+
+POST http://localhost:8080/api/organization/pizza-house/client/register
+accept: */*
+Content-Type: application/json
+
+{
+  "id": "1",
+  "availableRedirectUri": [
+    "file:///home/incvis/Documents/Projects/Studies/PracaInzynierska/zpi-ui/client_integration/client.html",
+    "file:///Users/bartekmaciag/Documents/PWR/ZPI/zpi-ui/client_integration/client.html",
+    "https://zpi-client-page.web.app/",
+    "http://localhost:3000/"
+  ]
+}
+
+
+###
+
+POST http://localhost:8080/api/organization/pizza-house/user/register
+accept: */*
+Content-Type: application/json
+
+{
+  "login": "s",
+  "password": "s"
+}
+
+###
+
