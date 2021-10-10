@@ -10,6 +10,14 @@ group = 'com'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.zpi.ZpiServiceApplication'
+        )
+    }
+}
+
 ext {
     junitVersion = '5.7.2'
     spockVersion = '2.0-M4-groovy-3.0'
@@ -79,3 +87,4 @@ task dockerImage(type: Exec) {
 
 dockerImage.dependsOn buildUI
 dockerImage.dependsOn bootJar
+
