@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+import static com.zpi.domain.manager.Role.*;
+
 @Component
 @RequiredArgsConstructor
 public class ManagerAccountMangerImpl implements ManagerAccountManager {
@@ -22,17 +24,15 @@ public class ManagerAccountMangerImpl implements ManagerAccountManager {
         if (!manager.getPassword().equals(password)) {
             throw exception;
         }
-
         return tokenProvider.createToken(manager.getUsername(), manager.getRoles());
     }
 
     @Override
-    public void createAccount(String username, String password, String accountRole) throws IllegalArgumentException {
-        Role role = Role.valueOf(accountRole);
+    public void createAccount(String username, String password) throws IllegalArgumentException {
         if(repository.findByUsername(username).isPresent()){
             throw new IllegalArgumentException("Account with such name already exists for this organization");
         }
-        repository.save(new Manager(username, password, List.of(role)));
+        repository.save(new Manager(username, password, List.of(MANAGER)));
     }
 
     @Override

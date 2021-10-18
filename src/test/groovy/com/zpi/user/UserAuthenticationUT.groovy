@@ -2,8 +2,8 @@ package com.zpi.user
 
 import com.zpi.CommonFixtures
 import com.zpi.api.common.dto.UserDTO
-import com.zpi.domain.organization.user.UserAuthenticator
-import com.zpi.domain.organization.user.UserRepository
+import com.zpi.domain.user.UserAuthenticator
+import com.zpi.domain.user.UserRepository
 import spock.lang.Specification
 import spock.lang.Subject
 

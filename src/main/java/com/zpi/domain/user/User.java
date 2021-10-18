@@ -1,9 +1,11 @@
 package com.zpi.domain.user;
 
+import com.zpi.domain.manager.Role;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Builder
@@ -12,6 +14,6 @@ public class User {
     private final String login;
     private final String password;
 
-    @Setter
-    private String organization;
+    private Set<Role> roles;
+
 }

@@ -1,5 +1,6 @@
 package com.zpi.infrastructure.security;
 
+import com.zpi.infrastructure.security.jwt.JwtTokenFilterConfigurer;
 import com.zpi.infrastructure.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,10 +25,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().anyRequest().anonymous().and().httpBasic().disable();
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/api/client/**")
+                .authenticated()
+                .anyRequest().anonymous();
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //FIXME
-        //http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+        http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
     }
 
     @Override

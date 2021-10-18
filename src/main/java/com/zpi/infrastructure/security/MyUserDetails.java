@@ -1,7 +1,7 @@
 package com.zpi.infrastructure.security;
 
-import com.zpi.domain.organization.manager.Manager;
-import com.zpi.domain.organization.manager.ManagerRepository;
+import com.zpi.domain.manager.Manager;
+import com.zpi.domain.manager.ManagerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
