@@ -11,13 +11,11 @@ class UserTuple implements EntityTuple<User> {
 
     private final String login;
     private final String password;
-    private final String organization;
 
 
     UserTuple(User user) {
         login = user.getLogin();
         password = user.getPassword();
-        organization = user.getOrganization();
     }
 
     @Override
@@ -25,7 +23,6 @@ class UserTuple implements EntityTuple<User> {
         return User.builder()
                 .login(login)
                 .password(password)
-                .organization(organization)
                 .build();
     }
 }

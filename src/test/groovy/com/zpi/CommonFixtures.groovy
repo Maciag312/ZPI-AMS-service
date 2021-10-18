@@ -1,8 +1,8 @@
 package com.zpi
 
-import com.zpi.api.organization.client.ClientDTO
+import com.zpi.api.client.ClientDTO
 import com.zpi.api.common.dto.UserDTO
-import com.zpi.domain.organization.client.Client
+import com.zpi.domain.client.Client
 
 class CommonFixtures {
     public static final String clientId = "id"

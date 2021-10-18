@@ -1,6 +1,6 @@
 package com.zpi.api.common.dto;
 
-import com.zpi.domain.organization.user.User;
+import com.zpi.domain.user.User;
 import com.zpi.api.common.utils.HashGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,10 @@
 package com.zpi.api.client;
 
 import com.zpi.domain.client.ClientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +16,11 @@ import java.net.URI;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client")
+@SecurityScheme(name = "client_auth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT", in = SecuritySchemeIn.HEADER)
 public class ClientController {
     private final ClientService service;
 
+    @Operation( security = {@SecurityRequirement(name = "client_auth") })
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody ClientDTO client) {
         var domain = client.toDomain();
@@ -24,6 +30,7 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
+    @Operation( security = {@SecurityRequirement(name = "client_auth") })
     @PostMapping("/{client_name}/redirection_uris")
     public ResponseEntity<?> addRedirectionURI(@RequestBody RedirectUriDTO uri, @PathVariable String client_name) {
         try {
