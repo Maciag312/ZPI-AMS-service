@@ -1,4 +1,4 @@
-package com.zpi.api.common.dto;
+package com.zpi.interfaces.rest.common.dto;
 
 import com.zpi.domain.common.RequestError;
 import lombok.EqualsAndHashCode;

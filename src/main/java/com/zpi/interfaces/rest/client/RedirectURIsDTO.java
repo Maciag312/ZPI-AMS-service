@@ -1,13 +1,14 @@
-package com.zpi.api.manager.dto;
+package com.zpi.interfaces.rest.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInDTO {
-    private String username;
-    private String password;
+public class RedirectURIsDTO {
+    List<String> URIs;
 }

@@ -1,4 +1,4 @@
-package com.zpi.api.client;
+package com.zpi.interfaces.rest.manager.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RedirectUriDTO {
-    private String redirectURI;
+public class ManagerDTO {
+    private String username;
+    private String password;
 }

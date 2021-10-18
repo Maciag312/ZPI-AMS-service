@@ -1,4 +1,4 @@
-package com.zpi.api.client;
+package com.zpi.interfaces.rest.client;
 
 import com.zpi.domain.client.Client;
 import lombok.AllArgsConstructor;
