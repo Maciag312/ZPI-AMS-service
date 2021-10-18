@@ -1,6 +1,6 @@
-package com.zpi.api.user;
+package com.zpi.interfaces.rest.user;
 
-import com.zpi.api.common.dto.UserDTO;
+import com.zpi.interfaces.rest.common.dto.UserDTO;
 import com.zpi.domain.user.UserManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

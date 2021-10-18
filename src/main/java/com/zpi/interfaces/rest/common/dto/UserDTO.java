@@ -1,7 +1,7 @@
-package com.zpi.api.common.dto;
+package com.zpi.interfaces.rest.common.dto;
 
 import com.zpi.domain.user.User;
-import com.zpi.api.common.utils.HashGenerator;
+import com.zpi.interfaces.rest.common.utils.HashGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

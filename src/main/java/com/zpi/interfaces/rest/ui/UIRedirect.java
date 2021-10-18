@@ -1,4 +1,4 @@
-package com.zpi.api.ui;
+package com.zpi.interfaces.rest.ui;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
