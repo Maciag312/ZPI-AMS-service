@@ -1,5 +1,6 @@
 package com.zpi.infrastructure.security;
 
+import com.zpi.domain.manager.Role;
 import com.zpi.infrastructure.security.jwt.JwtTokenFilterConfigurer;
 import com.zpi.infrastructure.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/client/**")
-                .authenticated()
-                .anyRequest().anonymous();
+                .antMatchers("/api/clients/**").hasAuthority(Role.SUPER_ADMIN.getAuthority())
+                .anyRequest().permitAll();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
@@ -39,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/api/v2/api-docs")//
                 .antMatchers("/swagger-resources/**")//
-                .antMatchers("/swagger-ui.html")//
+                .antMatchers("/api/swagger-ui/")//
                 .antMatchers("/configuration/**")//
                 .antMatchers("/webjars/**")//
                 .antMatchers("/public");
