@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +30,17 @@ public class ClientService {
         }
         client.get().getAvailableRedirectUri().add(uri);
         clientRepository.save(client.get().getId(), client.get());
+    }
+
+    public Set<Client> getAllClients() {
+        return clientRepository.findAll();
+    }
+
+    public void deleteClient(String id) {
+        clientRepository.deleteById(id);
+    }
+
+    public void removeURIfromClient(String id, String uri) {
+        clientRepository.removeUriFromClient(uri, id);
     }
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Builder
@@ -20,11 +20,14 @@ public class ClientDTO {
     private String id;
 
     @NotNull
-    private List<String> availableRedirectUri;
+    private Set<String> availableRedirectUris;
 
     public Client toDomain() {
         var client = new Client(id);
-        client.getAvailableRedirectUri().addAll(availableRedirectUri);
+        client.getAvailableRedirectUri().addAll(availableRedirectUris);
         return client;
+    }
+    public static ClientDTO fromDomain(Client client) {
+        return new ClientDTO(client.getId(), client.getAvailableRedirectUri());
     }
 }

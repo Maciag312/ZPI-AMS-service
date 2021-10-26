@@ -1,5 +1,7 @@
 package com.zpi.infrastructure.onlaunch;
 
+import com.zpi.domain.client.Client;
+import com.zpi.domain.client.ClientRepository;
 import com.zpi.domain.manager.Manager;
 import com.zpi.domain.manager.ManagerRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import static com.zpi.domain.manager.Role.*;
 public class ConfigurationOnLaunch {
 
     private final ManagerRepository managerRepository;
+    private final ClientRepository clientRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void setDefaultConfiguration() {
@@ -24,6 +27,18 @@ public class ConfigurationOnLaunch {
             var adminPassword = "admin";
             var superAdmin = new Manager(adminName, adminPassword, List.of(SUPER_ADMIN));
             managerRepository.save(superAdmin);
+            seedDatabaseWithSamples();
+        }
+    }
+
+    private void seedDatabaseWithSamples() {
+        seedDatabaseWithClients();
+    }
+    private void seedDatabaseWithClients(){
+        Client client = new Client("1");
+        if(clientRepository.findByName(client.getId()).isEmpty()) {
+            client.getAvailableRedirectUri().add("http://localhost:3000/");
+            clientRepository.save(client.getId(), client);
         }
     }
 }
