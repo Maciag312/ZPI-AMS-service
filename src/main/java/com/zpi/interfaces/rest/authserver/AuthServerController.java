@@ -18,9 +18,6 @@ public class AuthServerController {
 
     @GetMapping("/client/{id}/")
     public Optional<ClientDTO> clientDetails(@PathVariable String id) {
-        if("1".equals(id)) {
-            return Optional.of(new ClientDTO("1", Set.of("http://localhost:3000/")));
-        }
         return clientService.getClient(id).map(ClientDTO::fromDomain);
     }
 }
