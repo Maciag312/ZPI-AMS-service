@@ -14,21 +14,17 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
-    @NotNull
-    @NotEmpty
-    private String login;
+public class UserLoginDTO {
+    private String email;
 
     @NotNull
     @NotEmpty
     private String password;
 
-    public User toHashedDomain() {
-        var generator = new HashGenerator();
-
+    public User toDomain() {
         return User.builder()
-                .login(generator.generate(login))
-                .password(generator.generate(password))
+                .email(email)
+                .password(password)
                 .build();
     }
 }

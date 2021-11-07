@@ -1,4 +1,4 @@
-package com.zpi.interfaces.rest.manager.dto;
+package com.zpi.interfaces.rest.authserver;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpDTO {
-    private String username;
-    private String password;
+public class AuthConfigurationDTO {
+    TokenConfigurationDTO token;
 }

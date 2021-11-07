@@ -43,7 +43,7 @@ class UserAuthenticationUT extends Specification {
             def savedUser = UserDTO.builder()
                     .login(user.getLogin())
                     .password(user.getPassword() + "asdf")
-                    .build().toHashedDomain()
+                    .build().toDomain()
 
             userRepository.findByKey(user.getLogin()) >> Optional.of(savedUser)
 

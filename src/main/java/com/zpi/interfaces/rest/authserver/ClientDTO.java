@@ -1,11 +1,10 @@
-package com.zpi.interfaces.rest.authserver.dto;
+package com.zpi.interfaces.rest.authserver;
 
 import com.zpi.domain.client.Client;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 

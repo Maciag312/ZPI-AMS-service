@@ -9,7 +9,7 @@ public class UserAuthenticator {
     private final UserRepository userRepository;
 
     public boolean isAuthenticated(User user) {
-        var login = user.getLogin();
+        var login = user.getUsername();
 
         var found = userRepository.findByKey(login);
 
