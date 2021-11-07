@@ -42,7 +42,7 @@ class UserRegistrationFT extends Specification {
             def hashedDomain = user.toHashedDomain()
             def result = repository.findByKey(hashedDomain.getLogin()).get()
 
-            result.login == hashedDomain.login
+            result.username == hashedDomain.login
             result.password == hashedDomain.password
     }
 
@@ -61,7 +61,7 @@ class UserRegistrationFT extends Specification {
             def hashedDomain = user.toHashedDomain()
             def result = repository.findByKey(hashedDomain.getLogin()).get()
 
-            result.login == hashedDomain.login
+            result.username == hashedDomain.login
             result.password == hashedDomain.password
     }
 
@@ -85,7 +85,7 @@ class UserRegistrationFT extends Specification {
             def hashedDomain = userA.toHashedDomain()
             def result = repository.findByKey(hashedDomain.getLogin()).get()
 
-            result.login == hashedDomain.login
+            result.username == hashedDomain.login
             result.password == hashedDomain.password
     }
 

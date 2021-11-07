@@ -1,4 +1,4 @@
-package com.zpi.infrastructure.client;
+package com.zpi.infrastructure.persistance.client;
 
 import com.zpi.domain.client.Client;
 import com.zpi.infrastructure.common.EntityTuple;

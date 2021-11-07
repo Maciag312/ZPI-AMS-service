@@ -1,4 +1,4 @@
-package com.zpi.interfaces.rest.manager.dto;
+package com.zpi.interfaces.rest.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManagerDTO {
-    private String username;
-    private String password;
+public class GetUserInfoDTO {
+    String email;
 }

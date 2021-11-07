@@ -1,4 +1,4 @@
-package com.zpi.infrastructure.manager;
+package com.zpi.infrastructure.persistance.manager;
 
 import com.zpi.domain.manager.Manager;
 import com.zpi.domain.manager.Role;

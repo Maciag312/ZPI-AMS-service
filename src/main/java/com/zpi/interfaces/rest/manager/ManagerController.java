@@ -1,7 +1,5 @@
 package com.zpi.interfaces.rest.manager;
 
-import com.zpi.interfaces.rest.manager.dto.SignInDTO;
-import com.zpi.interfaces.rest.manager.dto.SignUpDTO;
 import com.zpi.domain.manager.ManagerAccountManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
