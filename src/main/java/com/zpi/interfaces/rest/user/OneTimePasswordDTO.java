@@ -1,4 +1,4 @@
-package com.zpi.interfaces.rest.role;
+package com.zpi.interfaces.rest.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddRoleDTO {
-    String role;
-    String color;
+public class OneTimePasswordDTO {
+    String email;
+    String qrCode;
 }

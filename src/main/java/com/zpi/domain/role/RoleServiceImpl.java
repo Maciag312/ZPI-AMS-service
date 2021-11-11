@@ -18,8 +18,8 @@ public class RoleServiceImpl implements RoleService {
     private final PermissionRepository permissionRepository;
 
     @Override
-    public void add(String role, Set<Permission> permissions) {
-        roleRepository.save(new Role(role, permissions));
+    public void add(String role, String color, Set<Permission> permissions) {
+        roleRepository.save(new Role(role, color, permissions));
     }
 
     @Override

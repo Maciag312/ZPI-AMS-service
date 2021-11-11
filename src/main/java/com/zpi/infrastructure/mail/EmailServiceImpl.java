@@ -2,10 +2,21 @@ package com.zpi.infrastructure.mail;
 
 import com.zpi.domain.user.EmailService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
@@ -24,5 +35,24 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
+    }
+
+    @Override
+    public void sendMessageWithImage(String to, String subject, String text, BufferedImage image) throws MessagingException, IOException {
+        var message = emailSender.createMimeMessage();
+        var helper = new MimeMessageHelper(message, true);
+        var format = "png";
+        var attachmentName =  RandomStringUtils.randomAlphanumeric(20) + "." + format;
+        var attachment = new File(attachmentName);
+        var file = new FileSystemResource(attachment);
+        ImageIO.write(image, format, attachment);
+        helper.setFrom(emailFrom);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(text);
+        helper.addAttachment(attachmentName, file);
+
+        emailSender.send(message);
+        attachment.deleteOnExit();
     }
 }

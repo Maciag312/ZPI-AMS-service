@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface RoleService {
-    void add(String role, Set<Permission> permissions);
+    void add(String role, String color, Set<Permission> permissions);
     Optional<Role> find(String role);
     void assignPermissionToRole(String role, String permission);
     void remove(String role);

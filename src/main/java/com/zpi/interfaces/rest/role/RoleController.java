@@ -22,7 +22,7 @@ public class RoleController {
     @PostMapping
     public ResponseEntity<String> add(@RequestBody AddRoleDTO roleDTO) {
         try {
-            roleService.add(roleDTO.getRole(), Collections.emptySet());
+            roleService.add(roleDTO.getRole(), roleDTO.getColor(), Collections.emptySet());
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

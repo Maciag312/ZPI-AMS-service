@@ -8,6 +8,7 @@ import java.util.Set;
 @Value
 public class Role {
     String name;
+    String color;
     Set<Permission> permissions;
 
     public void assign(Permission permission) {
