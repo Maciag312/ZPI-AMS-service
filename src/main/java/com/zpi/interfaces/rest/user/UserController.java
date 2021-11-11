@@ -1,5 +1,6 @@
 package com.zpi.interfaces.rest.user;
 
+import com.google.zxing.WriterException;
 import com.zpi.interfaces.rest.common.dto.UserLoginDTO;
 import com.zpi.domain.user.UserManager;
 import lombok.RequiredArgsConstructor;
@@ -8,11 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
@@ -34,10 +38,26 @@ public class UserController {
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody UserLoginDTO userLoginDTO) {
         var user = userLoginDTO.toDomain();
-        if (manager.authenticate(user)) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            if (manager.authenticate(user)) {
+                return ok().build();
+            }
+            return status(UNAUTHORIZED).body("Password is not accepted");
+        } catch (IllegalArgumentException ex) {
+            return status(UNAUTHORIZED).body(ex);
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/otp/generate")
+    public ResponseEntity<?> oneTimePasswordAuthenticate(@RequestBody UserEmailDTO email) {
+        try {
+            manager.generateQrCodePassword(email.email);
+            return ok().build();
+        } catch (IllegalArgumentException ex) {
+            return status(UNAUTHORIZED).body(ex);
+        } catch (IOException | WriterException | MessagingException ex) {
+            return internalServerError().body(ex);
+        }
     }
 
     @GetMapping
@@ -48,7 +68,7 @@ public class UserController {
     }
 
     @PostMapping("/info")
-    public ResponseEntity<UserInfoDTO> getUserInfo(@RequestBody GetUserInfoDTO getUserInfo) {
+    public ResponseEntity<UserInfoDTO> getUserInfo(@RequestBody UserEmailDTO getUserInfo) {
         Optional<UserInfoDTO> userInfo =  manager.getUserInfo(getUserInfo.email).map(UserInfoDTO::fromDomain);
         if (userInfo.isEmpty()) {
             return badRequest().build();
