@@ -34,9 +34,9 @@ public class PermissionController {
                .collect(Collectors.toSet());
     }
 
-    @DeleteMapping
-    public ResponseEntity remove(String permission){
-        permissionService.remove(permission);
+    @DeleteMapping("/{name}")
+    public ResponseEntity remove(@PathVariable String name){
+        permissionService.remove(name);
         return ResponseEntity.noContent().build();
     }
 

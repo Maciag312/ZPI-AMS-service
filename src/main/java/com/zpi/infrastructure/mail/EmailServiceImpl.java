@@ -2,6 +2,7 @@ package com.zpi.infrastructure.mail;
 
 import com.zpi.domain.user.EmailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
@@ -38,21 +40,25 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendMessageWithImage(String to, String subject, String text, BufferedImage image) throws MessagingException, IOException {
+    public void sendMessageWithImage(String to, String subject, String text, BufferedImage image)  {
         var message = emailSender.createMimeMessage();
-        var helper = new MimeMessageHelper(message, true);
-        var format = "png";
-        var attachmentName =  RandomStringUtils.randomAlphanumeric(20) + "." + format;
-        var attachment = new File(attachmentName);
-        var file = new FileSystemResource(attachment);
-        ImageIO.write(image, format, attachment);
-        helper.setFrom(emailFrom);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(text);
-        helper.addAttachment(attachmentName, file);
-
-        emailSender.send(message);
-        attachment.deleteOnExit();
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, true);
+            var format = "png";
+            var attachmentName =  RandomStringUtils.randomAlphanumeric(20) + "." + format;
+            var attachment = new File(attachmentName);
+            var file = new FileSystemResource(attachment);
+            ImageIO.write(image, format, attachment);
+            helper.setFrom(emailFrom);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(text);
+            helper.addAttachment(attachmentName, file);
+            emailSender.send(message);
+            attachment.deleteOnExit();
+        } catch (IOException | MessagingException e) {
+            log.error(e.getMessage());
+        }
     }
 }

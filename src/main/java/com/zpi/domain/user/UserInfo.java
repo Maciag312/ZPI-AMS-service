@@ -4,6 +4,7 @@ import com.zpi.domain.permission.Permission;
 import com.zpi.domain.role.Role;
 import lombok.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @Getter
@@ -15,4 +16,6 @@ public class UserInfo {
     String email;
     Set<Permission> permissions;
     Set<Role> roles;
+    Map<String, String> attributes;
+    boolean isActive;
 }
