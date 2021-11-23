@@ -13,10 +13,11 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 class RoleDTO {
     private String role;
+    private String color;
     private Set<AssignPermissionDTO> permissions;
 
     public static RoleDTO fromDomain(Role role) {
         var permissions = role.getPermissions().stream().map(AssignPermissionDTO::fromDomain).collect(Collectors.toSet());
-        return new RoleDTO(role.getName(), permissions);
+        return new RoleDTO(role.getName(), role.getColor(), permissions);
     }
 }

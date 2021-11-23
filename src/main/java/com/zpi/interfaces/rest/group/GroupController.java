@@ -1,6 +1,6 @@
-package com.zpi.interfaces.rest.role;
+package com.zpi.interfaces.rest.group;
 
-import com.zpi.domain.role.RoleService;
+import com.zpi.domain.group.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +14,15 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/roles")
-public class RoleController {
+@RequestMapping("/api/groups")
+public class GroupController {
 
-    private final RoleService roleService;
+    private final GroupService groupService;
 
     @PostMapping
-    public ResponseEntity<String> add(@RequestBody AddRoleDTO roleDTO) {
+    public ResponseEntity<String> add(@RequestBody AddGroupDTO groupDTO) {
         try {
-            roleService.add(roleDTO.getRole(), roleDTO.getColor(), Collections.emptySet());
+            groupService.add(groupDTO.getGroup(), groupDTO.getColor(), Collections.emptySet());
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -30,22 +30,22 @@ public class RoleController {
     }
 
     @GetMapping
-    public Set<RoleDTO> getAll(){
-       return roleService.getAll().stream()
-               .map(RoleDTO::fromDomain)
+    public Set<GroupDTO> getAll(){
+       return groupService.getAll().stream()
+               .map(GroupDTO::fromDomain)
                .collect(Collectors.toSet());
     }
 
     @DeleteMapping("/{name}")
     public ResponseEntity remove(@PathVariable String name){
-        roleService.remove(name);
+        groupService.remove(name);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{name}/assign-permission")
     public ResponseEntity assignPermission(@PathVariable String name, @RequestBody AssignPermissionDTO permissionDTO) {
         try {
-            roleService.assignPermissionToRole(name, permissionDTO.getPermission());
+            groupService.assignPermissionToGroup(name, permissionDTO.getPermission());
             return accepted().build();
         } catch (IllegalArgumentException reason) {
             return badRequest()
@@ -56,7 +56,7 @@ public class RoleController {
     @DeleteMapping("/{name}/remove-permission")
     public ResponseEntity removePermission(@PathVariable String name, @RequestBody AssignPermissionDTO permissionDTO) {
         try {
-            roleService.removePermissionFromRole(name, permissionDTO.getPermission());
+            groupService.removePermissionFromGroup(name, permissionDTO.getPermission());
             return noContent().build();
         } catch (IllegalArgumentException reason) {
             return badRequest()

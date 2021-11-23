@@ -7,7 +7,7 @@ import com.zpi.infrastructure.persistance.role.RoleTuple;
 import lombok.Data;
 import lombok.Getter;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,6 +19,7 @@ class UserTuple implements EntityTuple<User> {
     private final String password;
     private final String email;
     private final Set<RoleTuple> roles;
+    private final Map<String, String> attributes;
 
 
     UserTuple(User user) {
@@ -28,6 +29,7 @@ class UserTuple implements EntityTuple<User> {
         roles = user.getRoles().stream()
                 .map(RoleTuple::fromDomain)
                 .collect(Collectors.toSet());
+        attributes = user.getAttributes();
     }
 
     @Override
@@ -37,6 +39,7 @@ class UserTuple implements EntityTuple<User> {
                 .username(username)
                 .email(email)
                 .password(password)
+                .attributes(attributes)
                 .build();
         user.getRoles().addAll(domainRoles);
         return user;

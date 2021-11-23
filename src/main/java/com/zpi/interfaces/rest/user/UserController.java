@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
@@ -30,9 +30,19 @@ public class UserController {
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO) {
         var user = userDTO.toDomain();
         if (manager.createUser(user)) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return status(CREATED).build();
         }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return status(CONFLICT).build();
+    }
+
+    @PutMapping("/attributes")
+    public ResponseEntity<?> updateAttributes(@Valid @RequestBody UpdateAttributesDTO attributesDTO) {
+        try {
+            manager.updateAttributes(attributesDTO.getUserEmail(), attributesDTO.getAttributes());
+            return ok().build();
+        } catch (IllegalArgumentException ex) {
+            return status(CONFLICT).build();
+        }
     }
 
     @PostMapping("/authenticate")
@@ -76,8 +86,38 @@ public class UserController {
         return ok(userInfo.get());
     }
 
+    @PostMapping("/activate")
+    public ResponseEntity<?> activate(@RequestBody UserEmailDTO getUserInfo) {
+        try {
+            manager.activate(getUserInfo.email);
+            return ok().build();
+        } catch (IllegalArgumentException ex) {
+            return badRequest().build();
+        }
+    }
+
+    @PostMapping("/deactivate")
+    public ResponseEntity<?> deactivate(@RequestBody UserEmailDTO getUserInfo) {
+        try {
+            manager.deactivate(getUserInfo.email);
+            return ok().build();
+        } catch (IllegalArgumentException ex) {
+            return badRequest().build();
+        }
+    }
+
+    @PostMapping("/password/renew")
+    public ResponseEntity<?> renewPassword(@RequestBody UserEmailDTO getUserInfo) {
+        try {
+            manager.renewPassword(getUserInfo.email);
+            return ok().build();
+        } catch (IllegalArgumentException ex) {
+            return badRequest().build();
+        }
+    }
+
     @PostMapping("/assign-role")
-    public ResponseEntity assignRole(@RequestBody AssignRoleToUserDTO assignRoleToUserDTO) {
+    public ResponseEntity assignToRole(@RequestBody AssignRoleToUserDTO assignRoleToUserDTO) {
         try {
             manager.assignRole(assignRoleToUserDTO.email, assignRoleToUserDTO.role);
             return ok().build();
@@ -87,7 +127,7 @@ public class UserController {
     }
 
     @DeleteMapping("/remove-role")
-    public ResponseEntity removeRole(@RequestBody AssignRoleToUserDTO assignRoleToUserDTO) {
+    public ResponseEntity removeFromRole(@RequestBody AssignRoleToUserDTO assignRoleToUserDTO) {
         try {
             manager.removeRoleFromUser(assignRoleToUserDTO.email, assignRoleToUserDTO.role);
             return noContent().build();
