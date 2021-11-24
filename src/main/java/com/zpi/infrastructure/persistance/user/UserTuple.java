@@ -19,6 +19,7 @@ class UserTuple implements EntityTuple<User> {
     private final String password;
     private final String email;
     private final Set<RoleTuple> roles;
+    private final boolean isActive;
     private final Map<String, String> attributes;
 
 
@@ -29,6 +30,8 @@ class UserTuple implements EntityTuple<User> {
         roles = user.getRoles().stream()
                 .map(RoleTuple::fromDomain)
                 .collect(Collectors.toSet());
+
+        isActive = user.isActive();
         attributes = user.getAttributes();
     }
 
@@ -40,6 +43,7 @@ class UserTuple implements EntityTuple<User> {
                 .email(email)
                 .password(password)
                 .attributes(attributes)
+                .isActive(isActive)
                 .build();
         user.getRoles().addAll(domainRoles);
         return user;
