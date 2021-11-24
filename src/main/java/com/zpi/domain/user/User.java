@@ -23,7 +23,11 @@ public class User {
     private boolean isActive;
     final Set<Role> roles = new HashSet<>();
     private String password;
+<<<<<<< HEAD
     private Map<String, String> attributes = new HashMap<>();
+=======
+    private final Map<String, String> attributes = new HashMap<>();
+>>>>>>> ZPI add groups
 
     public String renewPassword(int length) {
         password = RandomStringUtils.randomAlphanumeric(length);
