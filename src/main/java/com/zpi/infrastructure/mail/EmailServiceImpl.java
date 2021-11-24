@@ -7,6 +7,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -57,7 +58,7 @@ public class EmailServiceImpl implements EmailService {
             helper.addAttachment(attachmentName, file);
             emailSender.send(message);
             attachment.deleteOnExit();
-        } catch (IOException | MessagingException e) {
+        } catch (IOException | MessagingException | MailException e) {
             log.error(e.getMessage());
         }
     }
