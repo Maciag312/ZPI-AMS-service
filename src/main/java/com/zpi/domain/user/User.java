@@ -19,7 +19,7 @@ public class User {
     private final String username;
     private final String email;
     public Set<Group> groups;
-    private boolean isActive;
+    private boolean isActive = true;
     final Set<Role> roles = new HashSet<>();
     private String password;
     private Map<String, String> attributes = new HashMap<>();
