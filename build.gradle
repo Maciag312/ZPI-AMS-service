@@ -83,11 +83,3 @@ pitest {
 task buildUI(type: Exec) {
     commandLine './scripts/buildUI.sh'
 }
-
-task dockerImage(type: Exec) {
-    commandLine 'docker', 'build', '-t', 'zpi/service', '.'
-}
-
-dockerImage.dependsOn buildUI
-dockerImage.dependsOn bootJar
-
