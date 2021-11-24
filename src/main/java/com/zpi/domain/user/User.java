@@ -25,6 +25,7 @@ public class User {
     private String password;
     private final Map<String, String> attributes = new HashMap<>();
 
+
     public String renewPassword(int length) {
         password = RandomStringUtils.randomAlphanumeric(length);
         return password;
