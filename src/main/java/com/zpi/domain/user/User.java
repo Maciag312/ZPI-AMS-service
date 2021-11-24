@@ -23,8 +23,7 @@ public class User {
     private boolean isActive;
     final Set<Role> roles = new HashSet<>();
     private String password;
-    @Setter
-    private Map<String, String> attributes = new HashMap<>();
+    private final Map<String, String> attributes = new HashMap<>();
 
     public String renewPassword(int length) {
         password = RandomStringUtils.randomAlphanumeric(length);
