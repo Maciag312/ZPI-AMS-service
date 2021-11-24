@@ -2,7 +2,6 @@ package com.zpi.domain.user;
 
 import com.zpi.domain.group.Group;
 import com.zpi.domain.role.Role;
-import com.zpi.infrastructure.persistance.group.InMemoryGroupRepository;
 import lombok.*;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -23,11 +22,7 @@ public class User {
     private boolean isActive;
     final Set<Role> roles = new HashSet<>();
     private String password;
-<<<<<<< HEAD
     private Map<String, String> attributes = new HashMap<>();
-=======
-    private final Map<String, String> attributes = new HashMap<>();
->>>>>>> ZPI add groups
 
     public String renewPassword(int length) {
         password = RandomStringUtils.randomAlphanumeric(length);
