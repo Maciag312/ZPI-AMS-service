@@ -4,7 +4,6 @@ import com.google.zxing.WriterException;
 import com.zpi.interfaces.rest.common.dto.UserLoginDTO;
 import com.zpi.domain.user.UserManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +53,7 @@ public class UserController {
             }
             return status(UNAUTHORIZED).body("Password is not accepted");
         } catch (IllegalArgumentException ex) {
-            return status(UNAUTHORIZED).body(ex);
+            return status(UNAUTHORIZED).body(ex.getMessage());
         }
     }
 
@@ -92,7 +91,7 @@ public class UserController {
             manager.activate(getUserInfo.email);
             return ok().build();
         } catch (IllegalArgumentException ex) {
-            return badRequest().build();
+            return badRequest().body(ex.getMessage());
         }
     }
 
@@ -102,7 +101,7 @@ public class UserController {
             manager.deactivate(getUserInfo.email);
             return ok().build();
         } catch (IllegalArgumentException ex) {
-            return badRequest().build();
+            return badRequest().body(ex.getMessage());
         }
     }
 
@@ -112,7 +111,7 @@ public class UserController {
             manager.renewPassword(getUserInfo.email);
             return ok().build();
         } catch (IllegalArgumentException ex) {
-            return badRequest().build();
+            return badRequest().body(ex.getMessage());
         }
     }
 
@@ -122,7 +121,7 @@ public class UserController {
             manager.assignRole(assignRoleToUserDTO.email, assignRoleToUserDTO.role);
             return ok().build();
         } catch (IllegalArgumentException ex) {
-            return badRequest().build();
+            return badRequest().body(ex.getMessage());
         }
     }
 
@@ -132,7 +131,7 @@ public class UserController {
             manager.removeRoleFromUser(assignRoleToUserDTO.email, assignRoleToUserDTO.role);
             return noContent().build();
         } catch (IllegalArgumentException ex) {
-            return badRequest().build();
+            return badRequest().body(ex.getMessage());
         }
     }
 }

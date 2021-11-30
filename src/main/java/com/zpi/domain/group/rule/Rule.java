@@ -4,28 +4,20 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Value
 public class Rule {
-   List<List<Matcher>> orListsOfAndMatchers;
+    String name;
+    List<Matcher> matchers;
 
-   void addAndMatcher(List<Matcher> matchersAndGroup) {
-       orListsOfAndMatchers.add(matchersAndGroup);
-   }
-
-   boolean validate() {
-       for (List<Matcher> andMatchers : orListsOfAndMatchers) {
-           boolean andValid = true;
-           for (Matcher matcher : andMatchers) {
-                if(!matcher.validate()) {
-                    andValid = false;
-                }
-           }
-           if(andValid) {
-               return true;
+   public boolean validate(Map<String, String> attributes) {
+       for (Matcher matcher : matchers) {
+           if (!matcher.validate(attributes)) {
+               return false;
            }
        }
-       return false;
+       return true;
    }
 }

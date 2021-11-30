@@ -53,6 +53,26 @@ public class GroupController {
         }
     }
 
+    @PostMapping("/{name}/rule")
+    public ResponseEntity addRule(@PathVariable String name, @RequestBody RuleDTO ruleDTO) {
+        try {
+            groupService.addRule(name, ruleDTO.toDomain());
+            return accepted().build();
+        } catch (IllegalArgumentException reason) {
+            return badRequest()
+                    .body(reason.getMessage());
+        }
+    }
+
+    @GetMapping("/{name}/rule")
+    public ResponseEntity getRules(@PathVariable String name) {
+        try {
+            return ok(RuleDTO.fromDomain(groupService.getRule(name)));
+        } catch (IllegalArgumentException reason) {
+            return badRequest().body(reason.getMessage());
+        }
+    }
+
     @DeleteMapping("/{name}/remove-permission")
     public ResponseEntity removePermission(@PathVariable String name, @RequestBody AssignPermissionDTO permissionDTO) {
         try {
