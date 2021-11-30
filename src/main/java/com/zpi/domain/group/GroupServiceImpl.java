@@ -3,12 +3,15 @@ package com.zpi.domain.group;
 import com.zpi.domain.group.rule.Rule;
 import com.zpi.domain.permission.Permission;
 import com.zpi.domain.permission.PermissionRepository;
+import com.zpi.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -21,7 +24,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void add(String group, String color, Set<Permission> permissions) {
-        groupRepository.save(new Group(group, color, permissions, new Rule(List.of(List.of()))));
+        groupRepository.save(new Group(group, color, permissions));
     }
 
     @Override
@@ -32,15 +35,43 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public void assignPermissionToGroup(String group, String permission) throws IllegalArgumentException {
         var groupOptional  = groupRepository.find(group);
-        if(groupOptional.isEmpty()) {
+        if (groupOptional.isEmpty()) {
             throw new IllegalArgumentException(format("Could not find group=[%s]", group));
         }
         var permissionOptimal = permissionRepository.find(permission);
-        if(permissionOptimal.isEmpty()) {
+        if (permissionOptimal.isEmpty()) {
             throw new IllegalArgumentException(format("Permission=[%s] is not registred", permission));
         }
         groupOptional.get().assign(permissionOptimal.get());
         groupRepository.save(groupOptional.get());
+    }
+
+    @Override
+    public void addRule(String groupName, Rule rule) {
+        var groupOptional  = groupRepository.find(groupName);
+        if (groupOptional.isEmpty()) {
+            throw new IllegalArgumentException(format("Could not find group=[%s]", groupName));
+        }
+        var group = groupOptional.get();
+        group.rule = rule;
+        groupRepository.save(group);
+    }
+
+    @Override
+    public Set<Group> getAllForUser(User user) {
+        return groupRepository.getAll().stream()
+                .filter(group -> group.belongs(user))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Rule getRule(String name) {
+        var groupOptional  = groupRepository.find(name);
+        if (groupOptional.isEmpty()) {
+            throw new IllegalArgumentException(format("Could not find group=[%s]", name));
+        }
+        var group = groupOptional.get();
+        return group.rule;
     }
 
     @Override

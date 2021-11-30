@@ -1,7 +1,9 @@
 package com.zpi.domain.user;
 
 import com.google.zxing.WriterException;
+import com.zpi.domain.group.Group;
 import com.zpi.domain.group.GroupService;
+import com.zpi.domain.permission.Permission;
 import com.zpi.domain.role.Role;
 import com.zpi.domain.role.RoleService;
 import com.zpi.infrastructure.mail.EmailServiceImpl;
@@ -11,10 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -89,14 +89,30 @@ public class UserManager {
         if(optionalUser.isEmpty()) {
             return Optional.empty();
         }
+        var user =  optionalUser.get();
 
-        var userPermissions =   optionalUser.get().getRoles().stream()
+        var userPermissions =   getUserPermissions(user);
+
+        return Optional.of(new UserInfo(email, userPermissions, optionalUser.get().getRoles(), optionalUser.get().getAttributes(), optionalUser.get().isActive()));
+    }
+
+    private Set<Permission> getUserPermissions(User user){
+        var rolePermissions = user.roles.stream()
                 .map(Role::getPermissions)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
 
-        return Optional.of(new UserInfo(email, userPermissions, optionalUser.get().getRoles(), optionalUser.get().getAttributes(), optionalUser.get().isActive()));
-    }
+        var groupPermissions = groupService.getAllForUser(user).stream()
+                .map(Group::getPermissions)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+
+        var params = new HashSet<Permission>();
+        params.addAll(rolePermissions);
+        params.addAll(groupPermissions);
+
+        return params;
+    };
 
     public void assignRole(String userEmail, String role){
         var user = userRepository.findByEmail(userEmail)
@@ -139,27 +155,5 @@ public class UserManager {
                 .orElseThrow(() -> new IllegalArgumentException(format("User with email=[%s] doesnt exists", userEmail)));
         foundUser.updateAttributes(attributes);
         userRepository.save(foundUser.getEmail(), foundUser);
-    }
-
-    public void assignGroupToUser(String email, String group) {
-        var foundUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException(format("User with email=[%s] doesnt exists", email)));
-
-        var domainGroup = groupService.find(group)
-                .orElseThrow(() -> new IllegalArgumentException(format("Role with name=[%s] doesnt exists", group)));
-
-        foundUser.groups.add(domainGroup);
-        userRepository.save(foundUser.getEmail(), foundUser);
-    }
-
-    public void removeGroupFromUser(String email, String group) {
-        var user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException(format("User with email=[%s] doesnt exists", email)));
-
-        var domainGroup = groupService.find(group)
-                .orElseThrow(() -> new IllegalArgumentException(format("Role with name=[%s] doesnt exists", group)));
-
-        user.groups.remove(domainGroup);
-        userRepository.save(user.getEmail(), user);
     }
 }

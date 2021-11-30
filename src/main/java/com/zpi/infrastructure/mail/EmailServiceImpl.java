@@ -4,7 +4,6 @@ import com.zpi.domain.user.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
