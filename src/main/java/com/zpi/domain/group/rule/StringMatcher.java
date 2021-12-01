@@ -9,7 +9,7 @@ import static java.lang.String.format;
 
 @Slf4j
 @Value
-public class  StringMatcher implements Matcher{
+public class StringMatcher implements Matcher{
     String attribute;
     String expected;
     Operator operator;
@@ -21,14 +21,14 @@ public class  StringMatcher implements Matcher{
         }
         var value = attributes.get(attribute);
         switch (operator) {
-            case EQUAL:
+            case EQUALS:
                 return value.equals(expected);
-            case NOT_EQUAL:
+            case IS_NOT_EQUAL:
                 return !value.equals(expected);
-            case CONTAINS:
-                return value.contains(expected);
             case STARTS_WITH:
                 return value.startsWith(expected);
+            case CONTAINS:
+                return value.contains(expected);
             default:
                 log.warn(format("Validation has unhandled operator=[%s]", operator));
                 return false;
@@ -46,6 +46,6 @@ public class  StringMatcher implements Matcher{
     }
 
     public enum Operator {
-        EQUAL, NOT_EQUAL, CONTAINS, STARTS_WITH
+        EQUALS, IS_NOT_EQUAL, STARTS_WITH, CONTAINS
     }
 }
