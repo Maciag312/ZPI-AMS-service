@@ -21,13 +21,13 @@ public class NumericMatcher implements Matcher {
         }
         var value = Double.valueOf(attributes.get(attribute));
         switch (operator) {
-            case EQUAL:
+            case EQUALS:
                 return value.equals(expected);
-            case NOT_EQUAL:
+            case IS_NOT_EQUAL:
                 return !value.equals(expected);
-            case GREATER:
+            case GREATER_THAN:
                 return value.compareTo(expected) > 0;
-            case LESS:
+            case LESS_THAN:
                 return value.compareTo(expected) < 0;
             case GREATER_OR_EQUAL:
                 return value.compareTo(expected) >= 0;
@@ -50,6 +50,6 @@ public class NumericMatcher implements Matcher {
     }
 
     public enum Operator {
-        EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL
+        EQUALS, IS_NOT_EQUAL, GREATER_THAN, LESS_THAN, GREATER_OR_EQUAL, LESS_OR_EQUAL
     }
 }

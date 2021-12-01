@@ -17,15 +17,18 @@ public class MatcherDTO {
     String operator;
 
     static MatcherDTO fromDomain(Matcher matcher) {
-        return new MatcherDTO(matcher.getAttribute(), matcher.getExpected().toString(), matcher.getType().toString(), matcher.getOperator());
+        var op = matcher.getOperator().toLowerCase().replace("_", " ");
+        return new MatcherDTO(matcher.getAttribute(), matcher.getExpected().toString(), matcher.getType().toString().toLowerCase(), op);
     }
 
     Matcher toDomain() {
-        switch (type) {
+        switch (type.toLowerCase()) {
             case "numeric" :
-                return new NumericMatcher(attribute, Double.valueOf(expected), NumericMatcher.Operator.valueOf(operator));
+                var op = operator.toUpperCase().replace(" ", "_");
+                return new NumericMatcher(attribute, Double.valueOf(expected), NumericMatcher.Operator.valueOf(op));
             case "string" :
-                 return new StringMatcher(attribute, expected, StringMatcher.Operator.valueOf(operator));
+                var strOp = operator.toUpperCase().replace(" ", "_");
+                return new StringMatcher(attribute, expected, StringMatcher.Operator.valueOf(strOp));
             default:
                 throw new IllegalArgumentException();
         }

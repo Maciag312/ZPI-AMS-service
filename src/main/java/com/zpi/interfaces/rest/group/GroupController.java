@@ -53,7 +53,7 @@ public class GroupController {
         }
     }
 
-    @PostMapping("/{name}/rule")
+    @PutMapping("/{name}/rule")
     public ResponseEntity addRule(@PathVariable String name, @RequestBody RuleDTO ruleDTO) {
         try {
             groupService.addRule(name, ruleDTO.toDomain());
@@ -61,15 +61,6 @@ public class GroupController {
         } catch (IllegalArgumentException reason) {
             return badRequest()
                     .body(reason.getMessage());
-        }
-    }
-
-    @GetMapping("/{name}/rule")
-    public ResponseEntity getRules(@PathVariable String name) {
-        try {
-            return ok(RuleDTO.fromDomain(groupService.getRule(name)));
-        } catch (IllegalArgumentException reason) {
-            return badRequest().body(reason.getMessage());
         }
     }
 
