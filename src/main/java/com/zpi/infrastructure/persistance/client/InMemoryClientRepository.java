@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 
 @Repository
-class InMemoryClientRepository extends InMemoryRepository<String, Client> implements ClientRepository {
+public class InMemoryClientRepository extends InMemoryRepository<String, Client> implements ClientRepository {
     @Override
     public EntityTuple<Client> fromDomain(Client client) {
         return new ClientTuple(client);
