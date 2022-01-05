@@ -1,12 +1,8 @@
 # syntax=docker/dockerfile:1
-FROM alpine/git AS git
-WORKDIR /app
-ADD "https://api.github.com/repos/Maciag312/ZPI-AMS-UI/commits?per_page=1" latest_commit
-RUN git clone --depth 1 https://github.com/Maciag312/ZPI-AMS-UI ui
 
 FROM node:16-alpine AS build
-COPY --from=git /app/ui/ /app
 WORKDIR /app
+COPY ./ZPI-AMS-UI .
 RUN npm ci
 RUN npm run build
 
