@@ -12,7 +12,7 @@ WORKDIR /app
 RUN mkdir -p src/main/resources/static
 RUN rm -rf src/main/resources/static
 COPY --from=build /app/build/ src/main/resources/static/
-RUN gradle bootJar
+RUN gradle bootJar --no-daemon --parallel
 
 FROM openjdk:11-jre-slim
 EXPOSE 8080
